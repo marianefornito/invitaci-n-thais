@@ -1,0 +1,236 @@
+/* ===== Paleta de colores (cámbiala aquí y cambia en toda la página) ===== */
+:root {
+  --rojo: #d7193a;
+  --rojo-oscuro: #8f0d24;
+  --rosa: #ffd6de;
+  --crema: #fff7f2;
+  --dorado: #ffd36e;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  font-family: "Quicksand", sans-serif;
+  color: var(--rojo-oscuro);
+  background: radial-gradient(circle at 50% 30%, #ff3d5e, var(--rojo) 45%, var(--rojo-oscuro));
+  overflow-x: hidden;
+}
+
+/* Canvas de brillitos: cubre todo, pero no bloquea los clics */
+#brillos {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ===== Pantallas ===== */
+.pantalla {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .8s ease, visibility .8s;
+}
+.pantalla.activa { opacity: 1; visibility: visible; }
+/* padding-top grande para que las Kitty de arriba no se corten */
+#invitacion { overflow-y: auto; justify-content: flex-start; padding-top: 80px; padding-bottom: 80px; }
+
+/* ===== Sobre ===== */
+.sobre {
+  position: relative;
+  width: min(300px, 80vw);
+  aspect-ratio: 3 / 2;
+  background: var(--crema);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 20px 50px rgba(0,0,0,.35);
+  animation: flotar 3s ease-in-out infinite;
+  overflow: hidden;
+}
+.sobre__tapa {
+  position: absolute;
+  inset: 0;
+  background: var(--rosa);
+  clip-path: polygon(0 0, 100% 0, 50% 60%);
+  transform-origin: top;
+  transition: transform .6s ease;
+}
+.sobre__sello {
+  position: absolute;
+  left: 50%; top: 60%;
+  transform: translate(-50%, -50%);
+  width: 56px; height: 56px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--rojo);
+  color: #fff;
+  font-size: 26px;
+  box-shadow: 0 0 0 4px var(--dorado);
+}
+.sobre.abierto .sobre__tapa { transform: scaleY(-1); }
+.sobre.abierto { animation: none; transform: scale(1.1); transition: transform .6s; }
+
+.pista {
+  margin-top: 24px;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: .5px;
+  animation: parpadeo 1.6s ease-in-out infinite;
+}
+
+/* ===== Tarjeta ===== */
+.tarjeta {
+  position: relative;
+  width: min(440px, 100%);
+  margin-bottom: 40px;
+  padding: 44px 28px 32px;
+  text-align: center;
+  background: var(--crema);
+  border-radius: 28px;
+  border: 3px dashed var(--rojo);
+  outline: 8px solid var(--crema);
+  box-shadow: 0 25px 60px rgba(0,0,0,.35);
+  transform: translateY(30px) scale(.95);
+  transition: transform .8s cubic-bezier(.2,1.4,.4,1);
+}
+.pantalla.activa .tarjeta { transform: none; }
+
+.kitty {
+  position: absolute;
+  width: 110px;
+  top: -55px;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,.25));
+  animation: flotar 3s ease-in-out infinite;
+}
+.kitty--izq { left: -25px; transform: rotate(-12deg); }
+.kitty--der { right: -25px; animation-delay: 1.5s; }
+
+.para { font-size: 15px; opacity: .8; }
+
+h1 {
+  font-family: "Pacifico", cursive;
+  font-weight: 400;
+  font-size: clamp(34px, 9vw, 44px);
+  color: var(--rojo);
+  margin: 6px 0 10px;
+  text-shadow: 3px 3px 0 var(--rosa);
+}
+
+.intro { margin-bottom: 18px; }
+
+.planes {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+.planes li {
+  display: flex;
+  flex-direction: column;   /* nombre arriba, imagen abajo */
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: #fff;
+  border-radius: 16px;
+  font-weight: 700;
+  box-shadow: 0 3px 0 var(--rosa);
+  opacity: 0;
+  transform: translateX(-20px);
+}
+.pantalla.activa .planes li { animation: entrar .5s ease forwards; }
+.pantalla.activa .planes li:nth-child(2) { animation-delay: .2s; }
+.pantalla.activa .planes li:nth-child(3) { animation-delay: .4s; }
+/* Imagen debajo de cada actividad */
+.plan__foto {
+  width: 100%;
+  aspect-ratio: 4 / 3;   /* todas del mismo tamaño */
+  object-fit: cover;     /* recorta sin deformar */
+  border-radius: 12px;
+}
+
+.hora {
+  display: inline-flex;
+  flex-direction: column;
+  padding: 12px 28px;
+  margin-bottom: 18px;
+  border-radius: 999px;
+  background: var(--rojo);
+  color: #fff;
+}
+.hora__fecha:empty { display: none; }
+.hora__fecha { font-size: 14px; }
+.hora__num { font-family: "Pacifico", cursive; font-size: 28px; }
+
+.lugar {
+  display: table;
+  margin: -6px auto 18px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: var(--rosa);
+  font-size: 15px;
+}
+
+.pregunta { font-weight: 700; font-size: 20px; margin-bottom: 14px; }
+
+.respuestas { display: grid; gap: 10px; }
+
+.btn {
+  font: inherit;
+  font-weight: 700;
+  padding: 14px 18px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(2px); }
+
+.btn--obvio {
+  background: linear-gradient(135deg, #ff4d6d, var(--rojo));
+  color: #fff;
+  font-size: 17px;
+  box-shadow: 0 5px 0 var(--rojo-oscuro);
+  animation: latido 1.4s ease-in-out infinite;
+}
+.btn--si { background: var(--rosa); color: var(--rojo-oscuro); box-shadow: 0 5px 0 #f2a7b6; }
+.btn--otro { background: transparent; color: var(--rojo-oscuro); text-decoration: underline; }
+
+.firma { margin-top: 22px; font-family: "Pacifico", cursive; color: var(--rojo); }
+
+/* ===== Botón de música ===== */
+.musica {
+  position: fixed;
+  right: 16px; bottom: 16px;
+  z-index: 10;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: rgba(255,255,255,.2);
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+}
+.musica.sonando { animation: girar 4s linear infinite; }
+
+/* Si alguien tiene activado "reducir movimiento", calmamos las animaciones */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .planes li { opacity: 1; transform: none; }
+}
+
+/* ===== Animaciones ===== */
+@keyframes flotar { 50% { translate: 0 -10px; } }
+@keyframes parpadeo { 50% { opacity: .4; } }
+@keyframes entrar { to { opacity: 1; transform: none; } }
+@keyframes latido { 50% { scale: 1.04; } }
+@keyframes girar { to { rotate: 360deg; } }

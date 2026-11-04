@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para Thais</title>
+
+  <!-- Tipografías de Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Capa de brillitos (se dibujan con JavaScript) -->
+  <canvas id="brillos"></canvas>
+
+  <!-- ===== PANTALLA 1: el sobre cerrado ===== -->
+  <section id="sobre" class="pantalla activa">
+    <button id="abrir" class="sobre" aria-label="Abrir invitación">
+      <span class="sobre__tapa"></span>
+      <span class="sobre__sello">♥</span>
+    </button>
+    <p class="pista">Toca el sobre, Thais</p>
+  </section>
+
+  <!-- ===== PANTALLA 2: la invitación ===== -->
+  <section id="invitacion" class="pantalla">
+    <article class="tarjeta">
+
+      <!-- Tus imágenes de Hello Kitty van en la carpeta img/ -->
+      <img class="kitty kitty--izq" src="img/kitty1.png" alt="" onerror="this.remove()">
+      <img class="kitty kitty--der" src="img/kitty2.png" alt="" onerror="this.remove()">
+
+      <p class="para">Para: <strong>Thais</strong></p>
+      <h1>¿Tarde de chicas?</h1>
+      <p class="intro">Te invito a una tarde súper linda conmigo:</p>
+
+      <ul class="planes">
+        <!-- ACTIVIDAD 1: HELADO -->
+        <li>
+          <span>Ir por un helado</span>
+          <img class="plan__foto" src="img/helado.jpg" alt="Helado" onerror="this.remove()">
+        </li>
+
+        <!-- ACTIVIDAD 2: MASCARILLAS -->
+        <li>
+          <span>Ponernos mascarillas</span>
+          <img class="plan__foto" src="img/mascarillas.jpg" alt="Mascarillas" onerror="this.remove()">
+        </li>
+
+        <!-- ACTIVIDAD 3: PELI -->
+        <li>
+          <span>Ver una peli juntas</span>
+          <img class="plan__foto" src="img/peli.jpg" alt="Película" onerror="this.remove()">
+        </li>
+      </ul>
+
+      <div class="hora">
+        <span class="hora__fecha" id="fecha"></span>
+        <span class="hora__num">6:00 pm</span>
+      </div>
+
+      <p class="lugar">Lugar: <strong>en tu casa</strong></p>
+
+      <p class="pregunta">¿Puedes?</p>
+
+      <div class="respuestas">
+        <button class="btn btn--obvio" data-respuesta="obvio">OBVIO, NO ME LO PIERDO</button>
+        <button class="btn btn--si" data-respuesta="si">Sí</button>
+        <button class="btn btn--otro" data-respuesta="otro">Otro día</button>
+      </div>
+
+      <p class="firma">Con cariño, Mariane ♡</p>
+    </article>
+  </section>
+
+  <!-- Botón para prender/apagar la música -->
+  <button id="musica" class="musica" aria-label="Música">♪</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
